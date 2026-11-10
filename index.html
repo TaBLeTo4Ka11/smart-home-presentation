@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Умный дом</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#050505}
+body{background:#050505;color:#fff;font-family:Manrope,Inter,Arial,sans-serif;overflow-x:hidden}
+#c{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+section{position:relative;z-index:1}
+.stick{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 6vw}
+#hero{height:200vh}
+h1{font-size:clamp(44px,11vw,150px);font-weight:800;letter-spacing:.04em;text-shadow:0 0 40px rgba(0,240,255,.55)}
+h1 span{color:#00f0ff}
+.hint{margin-top:3vh;color:#00f0ff;letter-spacing:.3em;font-size:14px}
+#def{height:100vh;display:flex;align-items:center;justify-content:center;padding:0 8vw;text-align:center}
+#def h2,#final h2{font-size:clamp(18px,2.4vw,30px);letter-spacing:.3em;color:#00f0ff;text-transform:uppercase;margin-bottom:2.5vh;font-weight:800}
+.sub{margin-top:2.5vh;font-size:clamp(16px,2.4vw,28px);color:#d6f9ff;font-weight:600}
+.card small{color:#00f0ff;font-size:15px;font-weight:600;margin-top:-10px}
+.fallback #hero{height:100vh}.fallback #tech{height:auto;padding:12vh 0}.fallback #tech h2{position:static;margin-bottom:4vh}.fallback .cards{height:auto;display:grid;gap:16px}.fallback .card{position:static}.fallback #final{height:auto;padding:12vh 0}.fallback #final .stick{position:static;height:auto}.fallback .stick{position:static;height:100vh}
+#def p{font-size:clamp(24px,4.2vw,56px);font-weight:600;line-height:1.3;max-width:1100px}
+#def b{color:#00f0ff;font-weight:800}
+#tech{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#tech h2{position:absolute;top:7vh;font-size:clamp(22px,3vw,40px);letter-spacing:.3em;color:#00f0ff}
+.cards{position:relative;width:min(440px,88vw);height:min(380px,60vh);perspective:1200px}
+.card{position:absolute;inset:0;padding:34px;border:1px solid #00f0ff;border-radius:20px;background:rgba(5,8,10,.88);box-shadow:0 0 28px rgba(0,240,255,.3);display:flex;flex-direction:column;justify-content:center;gap:18px;backface-visibility:hidden}
+.card i{font-style:normal;color:#00f0ff;font-weight:800;font-size:18px;letter-spacing:.2em}
+.card h3{font-size:clamp(30px,5vw,44px);font-weight:800}
+.card p{font-size:clamp(16px,2.2vw,20px);line-height:1.5;color:#d6f9ff}
+#final{height:200vh}
+#final .stick{justify-content:flex-end;padding-bottom:12vh}
+#final p{font-size:clamp(22px,3.6vw,46px);font-weight:600;max-width:1000px;line-height:1.3}
+#final b{color:#00f0ff}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<section id="hero"><div class="stick"><h1 id="h1">УМНЫЙ <span>ДОМ</span></h1><p class="sub" id="sub">Интерактивная презентация · 9 класс</p><div class="hint" id="hint">ЛИСТАЙТЕ ВНИЗ ↓</div></div></section>
+
+<section id="def"><div><h2 class="tx">Что такое умный дом?</h2><p class="tx">Это система автоматизации, которая управляет <b>светом</b>, <b>климатом</b> и <b>безопасностью</b></p></div></section>
+
+<section id="tech">
+<h2>ТЕХНОЛОГИИ</h2>
+<div class="cards">
+<div class="card"><i>01</i><h3>Свет</h3><small>Датчики движения</small><p>Датчики движения включают свет, когда вы входите, и выключают, когда в комнате никого нет.</p></div>
+<div class="card"><i>02</i><h3>Климат</h3><small>Термостаты</small><p>Термостаты поддерживают комфортную температуру и не греют помещение впустую.</p></div>
+<div class="card"><i>03</i><h3>Безопасность</h3><small>Датчики дыма и протечки</small><p>Датчики дыма и протечки мгновенно сообщают об опасности.</p></div>
+</div>
+</section>
+
+<section id="final"><div class="stick"><h2 class="tx">Вывод</h2><p class="tx">Умный дом — это <b>безопасность</b> и <b>экономия ресурсов</b></p></div></section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+if(!window.THREE||!window.gsap||!window.ScrollTrigger){document.body.classList.add("fallback");return;}
+gsap.registerPlugin(ScrollTrigger);
+var st={p1:0,pT:0,p4:0};
+
+/* ---------- Three.js ---------- */
+var cv=document.getElementById('c');
+var R=new THREE.WebGLRenderer({canvas:cv,antialias:false});
+R.setPixelRatio(Math.min(window.devicePixelRatio,1));
+R.setSize(innerWidth,innerHeight);
+var sc=new THREE.Scene();
+sc.background=new THREE.Color(0x050505);
+var cam=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,100);
+cam.position.z=5;
+
+// сфера-каркас (16 сегментов)
+var sphM=new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true});
+var sph=new THREE.Mesh(new THREE.SphereGeometry(1.3,16,12),sphM);
+sc.add(sph);
+
+// 3D-сетка
+var gp=[];
+for(var i=-10;i<=10;i++){gp.push(i,0,-10,i,0,10,-10,0,i,10,0,i);}
+var gg=new THREE.BufferGeometry();
+gg.setAttribute('position',new THREE.Float32BufferAttribute(gp,3));
+var gm=new THREE.LineBasicMaterial({color:0x00f0ff,transparent:true,opacity:0});
+var grid=new THREE.LineSegments(gg,gm);
+grid.rotation.x=Math.PI/2;grid.position.z=-3;
+sc.add(grid);
+
+// частицы (THREE.Points)
+var COLS=60,ROWS=40,N=COLS*ROWS;
+var A=new Float32Array(N*3),B=new Float32Array(N*3),W=new Float32Array(N*3),S=new Float32Array(N*3),D=new Float32Array(N*3),cur=new Float32Array(N*3);
+for(var i=0;i<N;i++){
+  var x=Math.random()*2-1,y=Math.random()*2-1,z=Math.random()*2-1,l=Math.sqrt(x*x+y*y+z*z)||1;
+  x/=l;y/=l;z/=l;
+  var r=3+Math.random()*7;
+  A.set([x*1.3,y*1.3,z*1.3],i*3);
+  B.set([x*r,y*r,z*r],i*3);
+  var u=(i%COLS)/(COLS-1)*2-1,v=((i/COLS)|0)/(ROWS-1)*2-1;
+  W.set([u*6,v*3.3,0],i*3);
+  var hw=v>=0?1.5:1.5*(1-Math.pow(-v,1.8)*.96);
+  S.set([u*hw,v*1.7,0],i*3);
+}
+D.set(B);cur.set(A);
+var pGeo=new THREE.BufferGeometry();
+var pAttr=new THREE.BufferAttribute(cur,3);
+pGeo.setAttribute('position',pAttr);
+var pM=new THREE.PointsMaterial({color:0x00f0ff,size:2,sizeAttenuation:false,transparent:true,opacity:0});
+var pts=new THREE.Points(pGeo,pM);
+pts.frustumCulled=false;
+sc.add(pts);
+
+// цели для слова «БУДУЩЕЕ»
+function buildText(){
+  var c=document.createElement('canvas');c.width=900;c.height=220;
+  var x=c.getContext('2d');
+  x.fillStyle='#fff';x.font='800 150px Manrope, Arial, sans-serif';
+  x.textAlign='center';x.textBaseline='middle';x.fillText('БУДУЩЕЕ',450,112);
+  var d=x.getImageData(0,0,900,220).data,p=[];
+  for(var y=0;y<220;y+=2)for(var xx=0;xx<900;xx+=2)if(d[(y*900+xx)*4+3]>128)p.push(xx,y);
+  var n=p.length/2;if(!n)return;
+  for(var i=0;i<N;i++){
+    var k=((Math.random()*n)|0)*2;
+    D[i*3]=(p[k]-450)/900*10;
+    D[i*3+1]=(110-p[k+1])/900*10+1.3;
+    D[i*3+2]=0;
+  }
+}
+if(document.fonts&&document.fonts.load){document.fonts.load('800 150px Manrope','БУДУЩЕЕ').then(buildText,buildText);}else buildText();
+
+/* ---------- мышь ---------- */
+var mx=0,my=0,lastMove=-1e9;
+addEventListener('pointermove',function(e){
+  mx=e.clientX/innerWidth*2-1;my=-(e.clientY/innerHeight*2-1);lastMove=performance.now();
+});
+
+function sm(a,b,x){x=Math.min(1,Math.max(0,(x-a)/(b-a)));return x*x*(3-2*x);}
+
+/* ---------- цикл ---------- */
+var raf=0;
+function tick(){
+  raf=requestAnimationFrame(tick);
+  if(document.hidden)return;
+  var p1=st.p1,pT=st.pT,p4=st.p4,now=performance.now();
+
+  sph.rotation.y+=.005;sph.rotation.x+=.002;
+  sphM.opacity=Math.max(0,1-p1*1.6);sph.visible=sphM.opacity>.01;
+
+  var tz=(pT>0||p4>0)?6:5-2.5*p1;
+  cam.position.z+=(tz-cam.position.z)*.08;
+
+  gm.opacity=.35*sm(0,.1,pT)*(1-sm(.6,.72,pT))*(p4>0?0:1);
+  grid.rotation.y+=(mx*.4-grid.rotation.y)*.05;
+  grid.rotation.x+=(Math.PI/2-my*.3-grid.rotation.x)*.05;
+
+  var heroA=Math.min(1,p1*4)*(1-sm(0,.1,pT));
+  pM.opacity=Math.max(heroA,sm(.6,.72,pT),p4>0?1:0);
+
+  if(pM.opacity>.01){
+    var txt=p4>0,wall=pT>.6;
+    var half=Math.tan(Math.PI/6)*cam.position.z,mw=mx*half*(innerWidth/innerHeight),mh=my*half;
+    var idle=(now-lastMove)>500,k=txt?.03+.1*sm(0,1,p4):.07,e=p1;
+    for(var i=0;i<N;i++){
+      var j=i*3,tx,ty,tzz;
+      if(txt){tx=D[j];ty=D[j+1];tzz=D[j+2];}
+      else if(wall){
+        var b=idle?S:W;tx=b[j];ty=b[j+1];tzz=0;
+        if(!idle){
+          var dx=tx-mw,dy=ty-mh,d=Math.sqrt(dx*dx+dy*dy);
+          if(d<1.6){var f=(1.6-d)/1.6*2.4;d=d||1;tx+=dx/d*f;ty+=dy/d*f;tzz=(i&1?1:-1)*f*1.5;}
+        }
+      }else{
+        tx=A[j]+(B[j]-A[j])*e;ty=A[j+1]+(B[j+1]-A[j+1])*e;tzz=A[j+2]+(B[j+2]-A[j+2])*e;
+        cur[j]=tx;cur[j+1]=ty;cur[j+2]=tzz;continue;
+      }
+      cur[j]+=(tx-cur[j])*k;cur[j+1]+=(ty-cur[j+1])*k;cur[j+2]+=(tzz-cur[j+2])*k;
+    }
+    pAttr.needsUpdate=true;
+  }
+  R.render(sc,cam);
+}
+tick();
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden){cancelAnimationFrame(raf);}else{cancelAnimationFrame(raf);tick();}
+});
+addEventListener('resize',function(){
+  R.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();
+});
+
+/* ---------- ScrollTrigger (scrub:1) ---------- */
+var h1=document.getElementById('h1'),fadeEls=[document.getElementById('sub'),document.getElementById('hint')];
+gsap.to(st,{p1:1,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom bottom',scrub:1,
+  onUpdate:function(s){var o=Math.max(0,1-s.progress*1.6);h1.style.opacity=o;fadeEls.forEach(function(el){el.style.opacity=o;});}}});
+
+gsap.from('#def .tx',{opacity:0,y:60,stagger:.3,ease:'none',scrollTrigger:{trigger:'#def',start:'top 75%',end:'top 25%',scrub:1}});
+
+var cards=gsap.utils.toArray('.card');
+gsap.set(cards,{rotateY:90,opacity:0,transformPerspective:1200});
+var tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:'#tech',start:'top top',end:'+=350%',pin:true,scrub:1}});
+cards.forEach(function(c,i){
+  var t0=i*1.5;
+  tl.to(c,{rotateY:0,opacity:1,duration:.5},t0);
+  if(i<2)tl.to(c,{rotateY:-90,opacity:0,duration:.5},t0+1);
+});
+tl.to(st,{pT:1,duration:4.5},0);
+
+gsap.to(st,{p4:1,ease:'none',scrollTrigger:{trigger:'#final',start:'top 70%',end:'top top',scrub:1}});
+gsap.from('#final .tx',{opacity:0,y:40,stagger:.3,ease:'none',scrollTrigger:{trigger:'#final',start:'top 20%',end:'top -30%',scrub:1}});
+})();
+</script>
+</body>
+</html>
