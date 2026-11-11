@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="dark">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Умный дом</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -101,18 +102,41 @@ h1{font-size:clamp(34px,10vh,76px)}.hint{display:none}
 #next{padding:9px 16px;font-size:13px;min-width:120px}
 #dots{bottom:calc(max(10px,env(safe-area-inset-bottom)) + 46px)}
 }
+html{color-scheme:dark;scrollbar-color:#00f0ff #050505}
+.hbg{position:absolute;inset:-10vh -10vw;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 55% 38% at 50% 50%,rgba(5,5,5,.88) 0%,rgba(5,5,5,.62) 45%,rgba(5,5,5,0) 100%)}
+#neon{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .7s;overflow:hidden;background-image:linear-gradient(rgba(0,240,255,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,.09) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%);mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%)}
+#neon.on{opacity:1}
+#neon i{position:absolute;display:block;will-change:transform}
+#neon .h{left:0;height:2px;width:18vw;background:linear-gradient(90deg,transparent,#00f0ff,transparent);box-shadow:0 0 10px #00f0ff;animation:runx 6s linear infinite}
+#neon .v{top:0;width:2px;height:18vh;background:linear-gradient(180deg,transparent,#00f0ff,transparent);box-shadow:0 0 10px #00f0ff;animation:runy 7s linear infinite}
+#neon .h1{top:191px}#neon .h2{top:447px;animation-duration:8s;animation-delay:-3s}
+#neon .v1{left:319px}#neon .v2{left:767px;animation-delay:-4s}#neon .v3{left:127px;animation-duration:9s;animation-delay:-6s}
+@keyframes runx{from{transform:translateX(-20vw)}to{transform:translateX(105vw)}}
+@keyframes runy{from{transform:translateY(-20vh)}to{transform:translateY(105vh)}}
+#fx{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+#fx2{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:2}
+.fxdot{position:absolute;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#00f0ff;box-shadow:0 0 14px #00f0ff,0 0 30px rgba(0,240,255,.7)}
+.fxw{position:absolute;left:0;top:0;color:#00f0ff;font-weight:800;font-size:clamp(16px,2.4vw,26px);text-shadow:0 0 12px rgba(0,240,255,.8);white-space:nowrap;opacity:0}
+.fxp{position:absolute;left:0;top:0;width:4px;height:4px;border-radius:50%;background:#7ffaff;box-shadow:0 0 8px #00f0ff;opacity:0}
+.cards{will-change:transform}
+#next{overflow:visible;min-width:168px;line-height:1.2;white-space:nowrap}
+.flying #hbg{opacity:0!important}
+.fallback #neon,.fallback #fx,.fallback #fx2{display:none}
+@media(prefers-reduced-motion:reduce){#neon i{animation:none}}
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
+<div id="neon" aria-hidden="true"><i class="h h1"></i><i class="h h2"></i><i class="v v1"></i><i class="v v2"></i><i class="v v3"></i></div>
+<div id="fx2" aria-hidden="true"></div>
 
-<section id="hero"><div class="stick"><h1 id="h1">УМНЫЙ <span>ДОМ</span></h1><p class="sub" id="sub">Интерактивная презентация · 9 класс</p><div class="author" id="au1">Выполнил: Бойцов Артём, 9-4 класс</div><div class="hint" id="hint">ЛИСТАЙТЕ ВНИЗ ↓</div></div></section>
+<section id="hero"><div class="stick"><div class="hbg" id="hbg"></div><h1 id="h1">УМНЫЙ <span>ДОМ</span></h1><p class="sub" id="sub">Интерактивная презентация · 9 класс</p><div class="author" id="au1">Выполнил: Бойцов Артём, 9-4 класс</div><div class="hint" id="hint">ЛИСТАЙТЕ ВНИЗ ↓</div></div></section>
 
 <section id="def"><div><h2 class="tx">Что такое умный дом?</h2><p class="tx">Это система автоматизации, которая управляет <b>светом</b>, <b>климатом</b> и <b>безопасностью</b></p></div></section>
 
 <section id="how" class="blk"><div class="panel"><h2 class="tx">Принцип работы</h2>
 <div class="flow tx"><div class="node"><b>Датчики</b><span>собирают данные: движение, температура, дым, вода</span></div><div class="arr">→</div><div class="node"><b>Контроллер</b><span>«мозг» системы: анализирует данные и принимает решение</span></div><div class="arr">→</div><div class="node"><b>Исполнительные устройства</b><span>выполняют команду: лампа, реле, клапан, сирена</span></div></div></div></section>
-<section id="tech">
+<section id="tech"><div id="fx" aria-hidden="true"></div>
 <h2>ТЕХНОЛОГИИ</h2>
 <div class="cards">
 <div class="card"><i>01</i><h3>Свет</h3><small>Датчики движения</small><p>Датчики движения включают свет, когда вы входите, и выключают, когда в комнате никого нет.</p><em>Пример: датчик движения включает лампу.</em></div>
@@ -178,7 +202,7 @@ grid.rotation.x=Math.PI/2;grid.position.z=-3;
 sc.add(grid);
 
 // частицы (THREE.Points)
-var COLS=60,ROWS=40,N=COLS*ROWS;
+var COLS=50,ROWS=40,N=COLS*ROWS;
 var A=new Float32Array(N*3),B=new Float32Array(N*3),W=new Float32Array(N*3),S=new Float32Array(N*3),D=new Float32Array(N*3),cur=new Float32Array(N*3);
 for(var i=0;i<N;i++){
   var x=Math.random()*2-1,y=Math.random()*2-1,z=Math.random()*2-1,l=Math.sqrt(x*x+y*y+z*z)||1;
@@ -240,7 +264,7 @@ function tick(){
   sph.rotation.y+=.005+(1-intro.v)*.04;sph.rotation.x+=.002;sph.scale.setScalar((.55+.45*intro.v)*(1+.035*Math.sin(now*.004)));
   sphM.opacity=Math.max(0,1-p1*1.6);sph.visible=sphM.opacity>.01;
 
-  var tz=(pT>0||p4>0)?baseZ:5-2.5*p1;
+  calcZ();var tz=(pT>0||p4>0)?baseZ:5-2.5*p1;
   cam.position.z+=(tz-cam.position.z)*.08;
   var amp=.06*cam.position.z;cam.position.x+=((mx+ox)*amp-cam.position.x)*.05;cam.position.y+=((my+oy)*amp-cam.position.y)*.05;
 
@@ -279,12 +303,11 @@ document.addEventListener('visibilitychange',function(){
   if(document.hidden){cancelAnimationFrame(raf);}else{cancelAnimationFrame(raf);tick();}
 });
 addEventListener('resize',function(){
-  calcZ();
   R.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();
 });
 
 /* ---------- ScrollTrigger (scrub:1,invalidateOnRefresh:true) ---------- */
-var h1=document.getElementById('h1'),fadeEls=[document.getElementById('sub'),document.getElementById('hint'),document.getElementById('au1')];
+var h1=document.getElementById('h1'),fadeEls=[document.getElementById('sub'),document.getElementById('hint'),document.getElementById('au1'),document.getElementById('hbg')];
 gsap.to(st,{p1:1,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom bottom',scrub:1,invalidateOnRefresh:true,
   onUpdate:function(s){var o=Math.max(0,1-s.progress*1.6);h1.style.opacity=o;fadeEls.forEach(function(el){el.style.opacity=o;});}}});
 
@@ -292,7 +315,13 @@ gsap.from('#def .tx',{opacity:0,y:30,stagger:.3,ease:'none',scrollTrigger:{trigg
 
 var cards=gsap.utils.toArray('.card');
 cards.forEach(function(c){c.addEventListener('click',function(){cards.forEach(function(o){o.classList.remove('hot');});c.classList.add('hot');clearTimeout(c._t);c._t=setTimeout(function(){c.classList.remove('hot');},1800);});});
-gsap.ticker.add(function(){cards.forEach(function(c){c.style.pointerEvents=gsap.getProperty(c,'opacity')>.6?'auto':'none';});});
+var cardsEl=document.querySelector('.cards'),tX=0,tY=0;
+gsap.ticker.add(function(){
+  cards.forEach(function(c){c.style.pointerEvents=gsap.getProperty(c,'opacity')>.6?'auto':'none';});
+  var on=st.pT>0&&st.pT<.98,gx=on?(mx+ox):0,gy=on?(my+oy):0;
+  tY+=(gx*10-tY)*.1;tX+=(-gy*8-tX)*.1;
+  if(on||Math.abs(tX)>.05||Math.abs(tY)>.05)cardsEl.style.transform='perspective(1000px) rotateX('+tX.toFixed(2)+'deg) rotateY('+tY.toFixed(2)+'deg)';
+});
 gsap.set(cards,{rotateY:90,opacity:0,transformPerspective:1200});
 var tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:'#tech',start:'top top',end:'+=350%',pin:true,scrub:1,invalidateOnRefresh:true}});
 cards.forEach(function(c,i){
@@ -310,6 +339,7 @@ gsap.utils.toArray('.blk').forEach(function(sec){
   gsap.from(sec.querySelectorAll('.tx'),{opacity:0,y:24,stagger:.25,ease:'none',scrollTrigger:{trigger:sec,start:'top 80%',end:'top 30%',scrub:1,invalidateOnRefresh:true}});
 });
 var btn=document.getElementById('next'),stops=[0],isAnimating=false,scrollTw=null,lockT=0,farJump=false;
+var neon=document.getElementById('neon'),NEON={1:1,2:1,4:1,5:1,6:1,7:1,8:1,9:1};
 var dotMap=[0,1,2,3,3,3,4,5,6,7,8,9,10],dotsEl=document.getElementById('dots'),dots=[];
 function ypos(id){return document.getElementById(id).getBoundingClientRect().top+window.pageYOffset;}
 function calcStops(){
@@ -321,6 +351,7 @@ function curDot(){var y=window.pageYOffset+innerHeight*.5,k=0;for(var i=0;i<stop
 function upd(){
   btn.textContent=nextIdx()<0?'Наверх ↑':'Далее →';
   var c=curDot();dots.forEach(function(d,i){d.classList.toggle('on',i===c);});
+  neon.classList.toggle('on',!!NEON[c]);
 }
 function flush(){ScrollTrigger.getAll().forEach(function(t){var tw=t.getTween&&t.getTween();if(tw&&tw.progress)tw.progress(1);});}
 function done(){
@@ -358,15 +389,56 @@ addEventListener('scroll',upd,{passive:true});
 ScrollTrigger.addEventListener('refresh',function(){calcStops();upd();});
 calcStops();upd();
 
+/* ---------- «пар из точки» и слова финала (HTML/CSS/GSAP, без новых Three.js объектов) ---------- */
+var fxEl=document.getElementById('fx'),fx2=document.getElementById('fx2'),steams=0,techOn=false,fw=0;
+var STEAM=['Свет','Климат','Безопасность','Датчик','Энергия','Комфорт','Экономия','Контроллер'];
+var FUT=['Будущее?','Будущее!','Будущее…'];
+function rnd(a,b){return a+Math.random()*(b-a);}
+if('IntersectionObserver' in window){new IntersectionObserver(function(e){techOn=e[0].isIntersecting;}).observe(document.getElementById('tech'));}
+function steam(){
+  var W=fxEl.clientWidth,H=fxEl.clientHeight;if(!W||!H)return;
+  var x=rnd(.1,.9)*W,y=rnd(.45,.9)*H,els=[],dot=document.createElement('div');
+  dot.className='fxdot';fxEl.appendChild(dot);els.push(dot);gsap.set(dot,{x:x,y:y});
+  steams++;
+  var t=gsap.timeline({onComplete:function(){els.forEach(function(n){n.remove();});steams--;}});
+  t.from(dot,{scale:0,opacity:0,duration:.35,ease:'back.out(2)'});
+  for(var i=0;i<3;i++){(function(i){
+    var w=document.createElement('div');w.className='fxw';w.textContent=STEAM[(Math.random()*STEAM.length)|0];fxEl.appendChild(w);els.push(w);
+    gsap.set(w,{x:x,y:y,xPercent:-50,yPercent:-50,scale:.7});
+    var at=.3+i*.55;
+    t.to(w,{opacity:.55,scale:1,y:y-rnd(50,90),x:x+rnd(-40,40),duration:.6,ease:'power1.out'},at);
+    t.to(w,{opacity:0,y:'-='+rnd(50,90),duration:1.4,ease:'power1.in'},at+.6);
+  })(i);}
+  for(var j=0;j<5;j++){(function(j){
+    var q=document.createElement('div');q.className='fxp';fxEl.appendChild(q);els.push(q);
+    gsap.set(q,{x:x,y:y});
+    var at=.25+j*.3;
+    t.to(q,{opacity:.8,y:y-rnd(40,80),x:x+rnd(-25,25),duration:.5,ease:'power1.out'},at);
+    t.to(q,{opacity:0,y:'-='+rnd(40,90),duration:1.2,ease:'power1.in'},at+.5);
+  })(j);}
+  t.to(dot,{opacity:0,scale:0,duration:.5},2.3);
+}
+function steamLoop(){if(!document.hidden&&techOn&&steams<2)steam();gsap.delayedCall(rnd(1.2,2.2),steamLoop);}
+gsap.delayedCall(1.5,steamLoop);
+function future(){
+  if(fw>=5)return;
+  var a=innerWidth/innerHeight,hh=Math.tan(Math.PI/6)*cam.position.z;
+  var px=innerWidth*(.5+rnd(-4.2,4.2)/(2*hh*a)),py=innerHeight*(.5-rnd(.4,2.1)/(2*hh));
+  var w=document.createElement('div');w.className='fxw';w.textContent=FUT[(Math.random()*3)|0];fx2.appendChild(w);fw++;
+  gsap.set(w,{x:px,y:py,xPercent:-50,yPercent:-50,scale:.7,opacity:0});
+  gsap.timeline({onComplete:function(){w.remove();fw--;}})
+    .to(w,{opacity:.85,scale:1,duration:.4})
+    .to(w,{y:py-rnd(70,160),x:px+rnd(-50,50),rotation:rnd(-10,10),opacity:0,scale:1.25,duration:1.8,ease:'power1.out'},.2);
+}
+function futureLoop(){if(!document.hidden&&st.p4>.95)future();gsap.delayedCall(rnd(.5,.9),futureLoop);}
+gsap.delayedCall(2,futureLoop);
+document.addEventListener('visibilitychange',function(){gsap.globalTimeline.paused(document.hidden);});
+
 var rsT=0;
 function onResize(){
-  calcZ();R.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();
+  R.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();
   clearTimeout(rsT);
-  rsT=setTimeout(function(){
-    if(isAnimating)done();
-    calcZ();R.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();
-    ScrollTrigger.refresh();
-  },250);
+  rsT=setTimeout(function(){if(isAnimating)done();ScrollTrigger.refresh();flush();},250);
 }
 addEventListener('resize',onResize);
 addEventListener('orientationchange',function(){setTimeout(onResize,350);});
