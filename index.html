@@ -14,31 +14,31 @@ html{background:#050505}
 body{background:#050505;color:#fff;font-family:Manrope,Inter,Arial,sans-serif;overflow-x:hidden}
 #c{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
 section{position:relative;z-index:1}
-.stick{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 6vw}
-#hero{height:200vh}
+.stick{position:sticky;top:0;height:100vh;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 6vw}
+#hero{height:200vh;height:200dvh}
 h1{font-size:clamp(44px,11vw,150px);font-weight:800;letter-spacing:.04em;text-shadow:0 0 40px rgba(0,240,255,.55)}
 h1 span{color:#00f0ff}
 .hint{margin-top:3vh;color:#00f0ff;letter-spacing:.3em;font-size:14px}
-#def{height:100vh;display:flex;align-items:center;justify-content:center;padding:0 8vw;text-align:center}
+#def{height:100vh;height:100dvh;display:flex;align-items:center;justify-content:center;padding:0 8vw;text-align:center}
 #def h2,#final h2,.blk h2{font-size:clamp(18px,2.4vw,30px);letter-spacing:.3em;color:#00f0ff;text-transform:uppercase;margin-bottom:2.5vh;font-weight:800}
 .sub{margin-top:2.5vh;font-size:clamp(16px,2.4vw,28px);color:#d6f9ff;font-weight:600}
 .card small{color:#00f0ff;font-size:15px;font-weight:600;margin-top:-10px}
-.fallback #hero{height:100vh}.fallback #tech{height:auto;padding:12vh 0}.fallback #tech h2{position:static;margin-bottom:4vh}.fallback .cards{height:auto;display:grid;gap:16px}.fallback .card{position:static}.fallback #final{height:auto;padding:12vh 0}.fallback #final .stick{position:static;height:auto}.fallback .stick{position:static;height:100vh}
+.fallback #hero{height:100vh;height:100dvh}.fallback #tech{height:auto;padding:12vh 0}.fallback #tech h2{position:static;margin-bottom:4vh}.fallback .cards{height:auto;display:grid;gap:16px}.fallback .card{position:static}.fallback #final{height:auto;padding:12vh 0}.fallback #final .stick{position:static;height:auto}.fallback .stick{position:static;height:100vh;height:100dvh}
 #def p{font-size:clamp(24px,4.2vw,56px);font-weight:600;line-height:1.3;max-width:1100px}
 #def b{color:#00f0ff;font-weight:800}
-#tech{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#tech{height:100vh;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center}
 #tech h2{position:absolute;top:7vh;font-size:clamp(22px,3vw,40px);letter-spacing:.3em;color:#00f0ff}
 .cards{position:relative;width:min(440px,88vw);height:min(470px,74vh);perspective:1200px}
 .card{position:absolute;inset:0;padding:34px;border:1px solid #00f0ff;border-radius:20px;background:rgba(5,8,10,.88);box-shadow:0 0 28px rgba(0,240,255,.3);display:flex;flex-direction:column;justify-content:center;gap:18px;backface-visibility:hidden}
 .card i{font-style:normal;color:#00f0ff;font-weight:800;font-size:18px;letter-spacing:.2em}
 .card h3{font-size:clamp(30px,5vw,44px);font-weight:800}
 .card p{font-size:clamp(16px,2.2vw,20px);line-height:1.5;color:#d6f9ff}
-#final{height:100vh}
+#final{height:100vh;height:100dvh}
 #final .stick{justify-content:flex-end;padding-bottom:max(18vh,130px)}
 #final p{font-size:clamp(22px,3.6vw,46px);font-weight:600;max-width:1000px;line-height:1.3}
 #final b{color:#00f0ff}
 .card{padding:28px}.card em{font-style:normal;color:#00f0ff;font-size:clamp(14px,2vw,17px);font-weight:600;border-top:1px solid rgba(0,240,255,.35);padding-top:12px}
-.blk{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12vh 6vw;text-align:center}
+.blk{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:12vh 6vw;text-align:center}
 .panel{background:rgba(5,5,5,.84);border:1px solid rgba(0,240,255,.35);border-radius:20px;padding:clamp(20px,4vw,48px);max-width:1100px;width:100%;box-shadow:0 0 28px rgba(0,240,255,.15)}
 .panel p{font-size:clamp(16px,2.2vw,22px);line-height:1.5;color:#d6f9ff;max-width:900px;margin:0 auto}
 .panel p.big{font-size:clamp(24px,4vw,48px);font-weight:800;color:#fff;margin-bottom:2vh}
@@ -134,6 +134,8 @@ html{color-scheme:dark;scrollbar-color:#00f0ff #050505}
 .dot.on{animation:dpulse 2.2s ease-in-out infinite}
 .fallback #glow{display:none}
 @media(prefers-reduced-motion:reduce){.dot.on{animation:none}}
+#tilt{position:fixed;top:calc(max(10px,env(safe-area-inset-top)) + 38px);right:max(10px,env(safe-area-inset-right));z-index:10;padding:6px 12px;border-radius:999px;border:1px solid rgba(0,240,255,.6);background:rgba(5,5,5,.8);color:#00f0ff;font:700 12px Manrope,Inter,Arial,sans-serif;white-space:nowrap;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#tilt[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -179,21 +181,34 @@ html{color-scheme:dark;scrollbar-color:#00f0ff #050505}
 
 <button id="next" type="button" aria-label="Далее">Далее →</button>
 <div id="dots" aria-hidden="false"></div>
+<button id="tilt" type="button" aria-pressed="false" hidden>3D-наклон: выкл</button>
 <button id="snd" type="button" aria-pressed="true" aria-label="Включить или выключить звук">♪ Звук: вкл</button>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 (function(){
-if(!window.THREE||!window.gsap||!window.ScrollTrigger){document.body.classList.add("fallback");return;}
+if(!window.gsap||!window.ScrollTrigger){document.body.classList.add("fallback");return;}
+if(!window.THREE){
+  var Z=function(){this.position={x:0,y:0,z:5};this.rotation={x:0,y:0,z:0};this.scale={setScalar:function(){}};this.opacity=0;this.visible=true;this.add=function(){};this.setAttribute=function(){};this.updateProjectionMatrix=function(){};};
+  window.THREE={WebGLRenderer:function(){throw new Error('no THREE');},Scene:Z,Color:Z,PerspectiveCamera:Z,Mesh:Z,MeshBasicMaterial:Z,SphereGeometry:Z,BufferGeometry:Z,Float32BufferAttribute:Z,LineBasicMaterial:Z,LineSegments:Z,BufferAttribute:Z,PointsMaterial:Z,Points:Z};
+}
 gsap.registerPlugin(ScrollTrigger);
 var st={p1:0,pT:0,p4:0};
 
 /* ---------- Three.js ---------- */
 var cv=document.getElementById('c');
-var R=new THREE.WebGLRenderer({canvas:cv,antialias:false});
-R.setPixelRatio(Math.min(window.devicePixelRatio,1));
-R.setSize(innerWidth,innerHeight);
+var gl=true,R;
+function noGL(){gl=false;cv.style.display='none';document.documentElement.classList.add('nogl');}
+try{
+  R=new THREE.WebGLRenderer({canvas:cv,antialias:false});
+  R.setPixelRatio(Math.min(window.devicePixelRatio,1));
+  R.setSize(innerWidth,innerHeight);
+}catch(err){
+  R={setSize:function(){},setPixelRatio:function(){},render:function(){}};
+  noGL();
+}
+cv.addEventListener('webglcontextlost',function(e){e.preventDefault();noGL();},false);
 var sc=new THREE.Scene();
 sc.background=new THREE.Color(0x050505);
 var cam=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,100);
@@ -268,8 +283,11 @@ var intro={v:0};gsap.to(intro,{v:1,duration:1.8,ease:'elastic.out(1,.55)'});
 var baseZ=6;
 function calcZ(){var a=innerWidth/innerHeight;baseZ=innerWidth<768?Math.max(6,11/(2*Math.tan(Math.PI/6)*a)):6;}
 calcZ();
-var raf=0;
+var raf=0,stopAt=0,zone=true;
+function startLoop(){if(gl&&!raf)raf=requestAnimationFrame(tick);}
 function tick(){
+  if(!gl){raf=0;return;}
+  if(!zone&&performance.now()>stopAt){raf=0;return;}
   raf=requestAnimationFrame(tick);
   if(document.hidden)return;
   var p1=st.p1,pT=st.pT,p4=st.p4,now=performance.now();
@@ -313,7 +331,8 @@ function tick(){
 }
 tick();
 document.addEventListener('visibilitychange',function(){
-  if(document.hidden){cancelAnimationFrame(raf);}else{cancelAnimationFrame(raf);tick();}
+  cancelAnimationFrame(raf);raf=0;
+  if(!document.hidden){stopAt=performance.now()+800;startLoop();}
 });
 addEventListener('resize',function(){
   R.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();
@@ -352,6 +371,7 @@ gsap.utils.toArray('.blk').forEach(function(sec){
   gsap.from(sec.querySelectorAll('.tx'),{opacity:0,y:24,stagger:.25,ease:'none',scrollTrigger:{trigger:sec,start:'top 80%',end:'top 30%',scrub:1,invalidateOnRefresh:true}});
 });
 var btn=document.getElementById('next'),stops=[0],isAnimating=false,scrollTw=null,lockT=0,farJump=false;
+var Z3={0:1,3:1,4:1,9:1,10:1};
 var neon=document.getElementById('neon'),glow=document.getElementById('glow'),NEON={1:1,2:1,4:1,5:1,6:1,7:1,8:1,9:1},fine=!!(window.matchMedia&&matchMedia('(hover:hover) and (pointer:fine)').matches);
 var dotMap=[0,1,2,3,3,3,4,5,6,7,8,9,10],dotsEl=document.getElementById('dots'),dots=[];
 function ypos(id){return document.getElementById(id).getBoundingClientRect().top+window.pageYOffset;}
@@ -366,6 +386,9 @@ function upd(){
   var c=curDot();dots.forEach(function(d,i){d.classList.toggle('on',i===c);});
   neon.classList.toggle('on',!!NEON[c]);glow.classList.toggle('on',!!NEON[c]&&fine);
   if(steams&&!(st.pT>.03&&st.pT<.97))killSteams();
+  var nz=!!Z3[c]||isAnimating;
+  if(!nz&&zone)stopAt=performance.now()+1500;
+  zone=nz;if(nz)startLoop();
 }
 function flush(){ScrollTrigger.getAll().forEach(function(t){var tw=t.getTween&&t.getTween();if(tw&&tw.progress)tw.progress(1);});}
 function done(){
@@ -382,7 +405,7 @@ function goTo(y){
   y=Math.max(0,Math.min(y,ScrollTrigger.maxScroll(window)));
   var from=window.pageYOffset,dist=Math.abs(y-from);
   if(dist<5)return;
-  isAnimating=true;
+  isAnimating=true;zone=true;startLoop();
   var far=dist>innerHeight*2.2;
   farJump=far;if(far)document.body.classList.add('flying');
   var o={y:from};
@@ -499,25 +522,31 @@ function future(){
     .to(w,{opacity:.85,scale:1,duration:.4})
     .to(w,{y:py-rnd(70,160),x:px+rnd(-50,50),rotation:rnd(-10,10),opacity:0,scale:1.25,duration:1.8,ease:'power1.out'},.2);
 }
-function futureLoop(){if(!document.hidden&&st.p4>.95)future();gsap.delayedCall(rnd(.5,.9),futureLoop);}
+function futureLoop(){if(gl&&!document.hidden&&st.p4>.95)future();gsap.delayedCall(rnd(.5,.9),futureLoop);}
 gsap.delayedCall(2,futureLoop);
 document.addEventListener('visibilitychange',function(){gsap.globalTimeline.paused(document.hidden);});
 
-var rsT=0;
+var rsT=0,lastW=innerWidth;
 function onResize(){
   R.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();
   clearTimeout(rsT);
-  rsT=setTimeout(function(){if(isAnimating)done();ScrollTrigger.refresh();flush();},250);
+  rsT=setTimeout(function(){if(innerWidth!==lastW){lastW=innerWidth;if(isAnimating)done();ScrollTrigger.refresh();flush();}},250);
 }
 addEventListener('resize',onResize);
 addEventListener('orientationchange',function(){setTimeout(onResize,350);});
 
-/* параллакс от наклона телефона */
+/* параллакс от наклона телефона: только по кнопке */
 function onOri(e){if(e.gamma==null||e.beta==null)return;ox=Math.max(-1,Math.min(1,e.gamma/25));oy=Math.max(-1,Math.min(1,-(e.beta-60)/25));}
-if(typeof DeviceOrientationEvent!=='undefined'){
-  if(typeof DeviceOrientationEvent.requestPermission==='function'){
-    document.addEventListener('click',function(){DeviceOrientationEvent.requestPermission().then(function(r){if(r==='granted')addEventListener('deviceorientation',onOri);}).catch(function(){});},{once:true});
-  }else addEventListener('deviceorientation',onOri);
+var tiltBtn=document.getElementById('tilt'),tiltOn=false;
+function tiltLabel(){tiltBtn.textContent=tiltOn?'3D-наклон: вкл':'3D-наклон: выкл';tiltBtn.setAttribute('aria-pressed',tiltOn?'true':'false');}
+if(typeof DeviceOrientationEvent!=='undefined'&&window.matchMedia&&matchMedia('(pointer:coarse)').matches){
+  tiltBtn.hidden=false;tiltLabel();
+  tiltBtn.addEventListener('click',function(){
+    tiltBtn.blur();
+    if(tiltOn){tiltOn=false;removeEventListener('deviceorientation',onOri);ox=0;oy=0;tiltLabel();return;}
+    var en=function(){tiltOn=true;addEventListener('deviceorientation',onOri);tiltLabel();};
+    if(typeof DeviceOrientationEvent.requestPermission==='function'){DeviceOrientationEvent.requestPermission().then(function(r){if(r==='granted')en();}).catch(function(){});}else en();
+  });
 }
 })();
 </script>
